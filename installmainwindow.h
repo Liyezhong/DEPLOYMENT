@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QListWidget>
 #include <QButtonGroup>
+#include "package.h"
+#include <QVector>
 
 
 namespace Ui {
@@ -15,21 +17,6 @@ enum {
     PTS,
     SERVICE,
     SETTINGS,
-};
-
-struct Package {
-public:
-    Package(QString &name, QString &path, QString &installDir);
-public:
-    bool install();
-    void remove();
-    void setEnable();
-
-    bool isInstall;
-    bool isRemove;
-    QString name;
-    QString path;
-    QString installDir;
 };
 
 class InstallMainWindow : public QMainWindow
@@ -53,7 +40,7 @@ private:
 
 private:
     //----------------------------------
-    void findInstallPackage(QString pattern);
+    QVector<Package *> *findInstallPackage(QString pattern);
 
 private slots:
     void on_InstallTabWidget_currentChanged(int index);
@@ -63,6 +50,9 @@ private slots:
 private:
     Ui::InstallMainWindow *ui;
     QButtonGroup enableRadioGroup;
+    QVector<Package *> *masterPackages;
+    QVector<Package *> *ptsPackages;
+    QVector<Package *> *servicePackages;
 };
 
 #endif // INSTALLMAINWINDOW_H

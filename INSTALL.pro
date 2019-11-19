@@ -27,14 +27,21 @@ SOURCES += \
         main.cpp \
         installmainwindow.cpp \
     installformitem.cpp \
-    existpackageform.cpp
+    existpackageform.cpp \
+    installdialog.cpp \
+    package.cpp
 
 HEADERS += \
         installmainwindow.h \
     installformitem.h \
-    existpackageform.h
+    existpackageform.h \
+    installdialog.h \
+    package.h
 
 FORMS += \
         installmainwindow.ui \
     installformitem.ui \
-    existpackageform.ui
+    existpackageform.ui \
+    installdialog.ui
+
+QMAKE_CFLAGS += -std=c++1z

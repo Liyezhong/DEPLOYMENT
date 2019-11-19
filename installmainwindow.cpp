@@ -2,11 +2,10 @@
 #include "ui_installmainwindow.h"
 #include "installformitem.h"
 #include "existpackageform.h"
-#include <QProcess>
 
 #include <QDebug>
-#include <QProcess>
-#include <unistd.h>
+#include <QFile>
+#include <QDir>
 
 InstallMainWindow::InstallMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -52,9 +51,18 @@ void InstallMainWindow::on_InstallTabWidget_tabBarClicked(int index)
 
 }
 
-void InstallMainWindow::findInstallPackage(QString pattern)
+QVector<Package *> * InstallMainWindow::findInstallPackage(QString pattern)
 {
+    QVector<Package *> *vector = new QVector<Package *>();
 
+    //
+
+
+
+
+    //
+
+    return vector;
 }
 
 void InstallMainWindow::newExistPackageItem(QListWidget *listWidget, size_t id, Package *package)
@@ -68,7 +76,7 @@ void InstallMainWindow::newExistPackageItem(QListWidget *listWidget, size_t id, 
 
 void InstallMainWindow::newAvailablePackageItem(QListWidget *listWidget, size_t id, Package *package)
 {
-    InstallFormItem *item = new InstallFormItem(id, package);
+    InstallFormItem *item = new InstallFormItem(id, package, this);
     auto listWidgetItem = new QListWidgetItem();
     listWidget->addItem(listWidgetItem);
     listWidget->setItemWidget(listWidgetItem, item);
@@ -77,8 +85,10 @@ void InstallMainWindow::newAvailablePackageItem(QListWidget *listWidget, size_t 
 
 void InstallMainWindow::masterHandle()
 {
-    Package *package = nullptr;
-    for (int i = 0; i < 15; i++) {
+    int i = 0;
+    masterPackages = this->findInstallPackage("MSW_*.sh");
+    for (auto package: *masterPackages) {
+        i++;
         newAvailablePackageItem(ui->AvaliableListWidget, i, package);
         newExistPackageItem(ui->ExistListWidget, i, package);
     }
@@ -86,41 +96,27 @@ void InstallMainWindow::masterHandle()
 
 void InstallMainWindow::ptsHandle()
 {
-    qDebug() << __FUNCTION__ << __LINE__;
+    int i = 0;
+    ptsPackages = this->findInstallPackage("PTS_*.sh");
+    for (auto package: *ptsPackages) {
+        i++;
+        newAvailablePackageItem(ui->AvaliableListWidget, i, package);
+        newExistPackageItem(ui->ExistListWidget, i, package);
+    }
 }
 
 void InstallMainWindow::serviceHandle()
 {
-    qDebug() << __FUNCTION__ << __LINE__;
+    int i = 0;
+    servicePackages = this->findInstallPackage("SVC_*.sh");
+    for (auto package: *servicePackages) {
+        i++;
+        newAvailablePackageItem(ui->AvaliableListWidget, i, package);
+        newExistPackageItem(ui->ExistListWidget, i, package);
+    }
 }
 
 void InstallMainWindow::settingsHandle()
 {
     qDebug() << __FUNCTION__ << __LINE__;
-}
-
-Package::Package(QString &name, QString &path, QString &installDir)
-    : isRemove(false),
-      isInstall(false),
-      name(name),
-      path(path),
-      installDir(installDir)
-{
-}
-
-void Package::remove()
-{
-    QString cmd = "rm -rf " +path;
-    QProcess::execute(cmd);
-    ::sync();
-    qDebug() << __FUNCTION__ << __LINE__;
-}
-
-void Package::setEnable()
-{
-    ::unlink(this->installDir.toStdString().c_str());
-    ::symlink(path.toStdString().c_str(), installDir.toStdString().c_str());
-////    int readlink(const char *p a t h n a m e, char * b u f, int b u f s i z e) ;
-//    readlink();
-    ::sync();
 }

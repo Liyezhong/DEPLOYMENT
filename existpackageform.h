@@ -5,7 +5,7 @@
 #include <QRadioButton>
 #include <QButtonGroup>
 #include <QListWidget>
-#include "installmainwindow.h"
+#include "package.h"
 
 namespace Ui {
 class ExistPackageForm;
@@ -29,11 +29,11 @@ private slots:
     void on_enableRadioButton_toggled(bool checked);
 
 private:
-    Ui::ExistPackageForm *ui;
-    QButtonGroup *buttonGroup;
     QListWidget *listWidget;
     QListWidgetItem *listWidgetItem;
-    Package * package;
+    Package *package;
+    QButtonGroup *buttonGroup;
+    Ui::ExistPackageForm *ui;
 };
 
 #endif // EXISTPACKAGEFORM_H

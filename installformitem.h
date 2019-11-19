@@ -2,8 +2,7 @@
 #define INSTALLFORMITEM_H
 
 #include <QWidget>
-
-#include "installmainwindow.h"
+#include "package.h"
 
 namespace Ui {
 class InstallFormItem;
@@ -16,6 +15,9 @@ class InstallFormItem : public QWidget
 public:
     explicit InstallFormItem(size_t _id, Package *package, QWidget *parent = 0);
     ~InstallFormItem();
+
+private slots:
+    void on_installButton_clicked();
 
 private:
     Ui::InstallFormItem *ui;
