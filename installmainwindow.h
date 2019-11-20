@@ -16,6 +16,7 @@ enum {
     MASTER,
     PTS,
     SERVICE,
+    SLAVE,
     SETTINGS,
 };
 
@@ -46,6 +47,10 @@ private slots:
     void on_InstallTabWidget_currentChanged(int index);
 
     void on_InstallTabWidget_tabBarClicked(int index);
+
+    void on_save_pushButton_clicked();
+
+    void on_reboot_pushButton_clicked();
 
 private:
     Ui::InstallMainWindow *ui;

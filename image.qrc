@@ -2,5 +2,9 @@
     <qresource prefix="/ico">
         <file>images/radio_checked.png</file>
         <file>images/radio_unchecked.png</file>
+        <file>images/leica_log.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>existpackageform.cpp</file>
     </qresource>
 </RCC>

@@ -91,14 +91,20 @@
     <string>ID</string>
    </property>
   </widget>
-  <widget class="QGraphicsView" name="graphicsView">
+  <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>60</x>
      <y>20</y>
-     <width>51</width>
+     <width>31</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>:/ico/images/leica_log.png</pixmap>
    </property>
   </widget>
  </widget>

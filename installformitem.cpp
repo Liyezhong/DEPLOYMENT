@@ -11,6 +11,7 @@ InstallFormItem::InstallFormItem(size_t _id, Package *package, QWidget *parent) 
 {
     ui->setupUi(this);
     ui->id->setText(QString().setNum(id));
+//    ui->label->setStyleSheet("border:1px solid red;");
 }
 
 InstallFormItem::~InstallFormItem()
