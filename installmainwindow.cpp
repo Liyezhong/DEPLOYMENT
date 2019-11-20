@@ -87,8 +87,13 @@ void InstallMainWindow::masterHandle()
 {
     int i = 0;
     masterPackages = this->findInstallPackage("MSW_*.sh");
-    for (auto package: *masterPackages) {
-        i++;
+#if 0
+    for (auto package: *ptsPackages) {
+        i++
+#else
+    Package *package = nullptr;
+    for (i = 0; i < 10; i++) {
+#endif
         newAvailablePackageItem(ui->AvaliableListWidget, i, package);
         newExistPackageItem(ui->ExistListWidget, i, package);
     }
@@ -98,8 +103,13 @@ void InstallMainWindow::ptsHandle()
 {
     int i = 0;
     ptsPackages = this->findInstallPackage("PTS_*.sh");
+#if 0
     for (auto package: *ptsPackages) {
-        i++;
+        i++
+#else
+    Package *package = nullptr;
+    for (i = 0; i < 10; i++) {
+#endif
         newAvailablePackageItem(ui->AvaliableListWidget, i, package);
         newExistPackageItem(ui->ExistListWidget, i, package);
     }

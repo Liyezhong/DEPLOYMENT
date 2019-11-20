@@ -18,9 +18,42 @@
     <rect>
      <x>20</x>
      <y>30</y>
-     <width>31</width>
-     <height>23</height>
+     <width>41</width>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">/*RadioButton样式设置*/
+QRadioButton::indicator { 
+	width: 37px;
+	height: 37px;
+}
+/*单选框未选中样式*/
+QRadioButton::indicator::unchecked {	
+	image: url(:/ico/images/radio_unchecked.png);
+}
+/*单选框选中样式*/
+QRadioButton::indicator::checked { 
+	image: url(:/ico/images/radio_checked.png);
+}
+/*RadioButton和checkbox字体和间距设置*/
+QRadioButton ,QCheckBox{
+	spacing: 5px;
+	font-size: 15px;
+}
+/*checkbox样式设置*/
+QCheckBox::indicator { 
+	width: 26px;
+	height: 50px;
+}
+/*未选中*/
+QCheckBox::indicator::unchecked {	
+	image: url(:/ico/checkbox_unchecked.png);
+}
+/*选中*/
+QCheckBox::indicator::checked { 
+	image: url(:/ico/checkbox_checked.png);
+}</string>
    </property>
    <property name="text">
     <string/>

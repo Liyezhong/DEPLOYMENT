@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/ico">
+        <file>images/radio_checked.png</file>
+        <file>images/radio_unchecked.png</file>
+    </qresource>
+</RCC>

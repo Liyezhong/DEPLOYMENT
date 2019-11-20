@@ -45,3 +45,6 @@ FORMS += \
     installdialog.ui
 
 QMAKE_CFLAGS += -std=c++1z
+
+RESOURCES += \
+    image.qrc
