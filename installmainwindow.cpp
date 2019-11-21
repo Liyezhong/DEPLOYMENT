@@ -148,53 +148,107 @@ void InstallMainWindow::serviceHandle()
 
 void InstallMainWindow::settingsHandle()
 {
-    /**
-     * /usr/bin/eGTouchD
-ifconfig eth0 hw ether be:1e:9c:ae:ec:59 10.10.235.242 netmask 255.255.255.0 up
-route add default gw 10.10.235.2
-
-ip link add dev can1 type vcan
-ip link set can1 txqueuelen 10000
-ip link set can1 up
-
-ip link set can0 type can bitrate 1000000 loopback off
-ip link set can0 txqueuelen 10000
-ip link set can0 up
-
-while true; do
-# 1. ssh restart
-    netstat -antp | grep 22 | grep LISTEN || systemctl start dropbear.socket
-
-# 2. keyboard input key manage
-    kbd=`ls /dev/input/by-id/*-kbd 2>/dev/null`
-    if [ $? -eq 0 ]; then
-        pidof key || key $kbd
-    else
-        pkill -9 key
-    fi
-
-# 3. system log
-#	logfilecount=$(ls /home/root/log/dmesg.* && )
-
-    sleep 10
-done
-
-
-     */
     qDebug() << __FUNCTION__ << __LINE__;
+
+    QProcess ip_mac;
     QStringList parameter;
-    parameter << "/home/arthur/1.sh";
-    QProcess::execute("bash", parameter);
+    parameter << "/usr/leica/bin/ip_mac_read.sh";
+    ip_mac.start("bash", parameter);
+
+    if (!ip_mac.waitForFinished())
+        return;
+    QString result(ip_mac.readAll());
+    qDebug() << "result: " << result;
+
+    foreach (const QString &str, result.split('\n')) {
+        auto item = str.split('=');
+        if (item.at(0) == "ip") {
+            ip = item.at(1);
+            qDebug() << " ip: " << item.at(1);
+        } else if (item.at(0) == "mac") {
+            mac = item.at(1);
+            qDebug() << " mac: " << item.at(1);
+        } else if (item.at(0) == "gateway") {
+            gateway = item.at(1);
+            qDebug() << " gateway: " << item.at(1);
+        } else if (item.at(0) == "netmask") {
+            netmask = item.at(1);
+            qDebug() << " netmask: " << item.at(1);
+        }
+    }
+
+    // run ip_mac_read.sh
+    auto ipList = ip.split('.');
+    ui->ip_1_lineEdit->setText(ipList.at(0));
+    ui->ip_2_lineEdit->setText(ipList.at(1));
+    ui->ip_3_lineEdit->setText(ipList.at(2));
+    ui->ip_4_lineEdit->setText(ipList.at(3));
+
+    auto gatewayList = gateway.split('.');
+    ui->gateway_1_lineEdit->setText(gatewayList.at(0));
+    ui->gateway_2_lineEdit->setText(gatewayList.at(1));
+    ui->gateway_3_lineEdit->setText(gatewayList.at(2));
+    ui->gateway_4_lineEdit->setText(gatewayList.at(3));
+
+    auto macList = mac.split(':');
+    ui->mac_1_lineEdit->setText(macList.at(0));
+    ui->mac_2_lineEdit->setText(macList.at(1));
+    ui->mac_3_lineEdit->setText(macList.at(2));
+    ui->mac_4_lineEdit->setText(macList.at(3));
+    ui->mac_5_lineEdit->setText(macList.at(4));
+    ui->mac_6_lineEdit->setText(macList.at(5));
+
+    // machine type
+    getenv("machine_type");
+
+
 }
 
 void InstallMainWindow::on_save_pushButton_clicked()
 {
     //
     qDebug() << __FUNCTION__ << __LINE__;
+    QString ip_new = ui->ip_1_lineEdit->text()
+            + "." + ui->ip_2_lineEdit->text()
+            + "." + ui->ip_3_lineEdit->text()
+            + "." + ui->ip_4_lineEdit->text();
+    bool is_modify = false;
+    if (ip != ip_new) {
+        is_modify = true;
+        ip = ip_new;
+    }
+    QString mac_new = ui->mac_1_lineEdit->text()
+            + ":" + ui->mac_2_lineEdit->text()
+            + ":" + ui->mac_3_lineEdit->text()
+            + ":" + ui->mac_4_lineEdit->text()
+            + ":" + ui->mac_5_lineEdit->text()
+            + ":" + ui->mac_6_lineEdit->text();
+    if (mac != mac_new) {
+        is_modify = true;
+        mac = mac_new;
+    }
+    QString gateway_new = ui->gateway_1_lineEdit->text()
+            + "." + ui->gateway_2_lineEdit->text()
+            + "." + ui->gateway_3_lineEdit->text()
+            + "." + ui->gateway_4_lineEdit->text();
+    if (gateway != gateway_new) {
+        is_modify = true;
+        gateway = gateway_new;
+    }
+
+    if (is_modify == true) {
+        QStringList parameter;
+        parameter << "/usr/leica/bin/ip_mac_write.sh"
+                  << ip
+                  << mac
+                  << gateway;
+        QProcess::execute("bash", parameter);
+    }
 }
 
 void InstallMainWindow::on_reboot_pushButton_clicked()
 {
     //
     qDebug() << __FUNCTION__ << __LINE__;
+    QProcess::execute("reboot");
 }

@@ -668,12 +668,12 @@
        <string>Machine Type:</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="machineTypeComboBox">
       <property name="geometry">
        <rect>
         <x>160</x>
         <y>220</y>
-        <width>86</width>
+        <width>91</width>
         <height>25</height>
        </rect>
       </property>
@@ -743,7 +743,7 @@
      <zorder>label_21</zorder>
      <zorder>label_22</zorder>
      <zorder>label_23</zorder>
-     <zorder>comboBox</zorder>
+     <zorder>machineTypeComboBox</zorder>
      <zorder>save_pushButton</zorder>
      <zorder>reboot_pushButton</zorder>
     </widget>

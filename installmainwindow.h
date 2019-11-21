@@ -20,6 +20,7 @@ enum {
     SETTINGS,
 };
 
+
 class InstallMainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -58,6 +59,11 @@ private:
     QVector<Package *> *masterPackages;
     QVector<Package *> *ptsPackages;
     QVector<Package *> *servicePackages;
+
+    QString ip;
+    QString mac;
+    QString gateway;
+    QString netmask;
 };
 
 #endif // INSTALLMAINWINDOW_H
