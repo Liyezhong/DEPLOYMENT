@@ -20,6 +20,18 @@ enum {
     SETTINGS,
 };
 
+enum {
+  MACHINE_TYPE_NULL,
+  MACHINE_TYPE_PLATINUM,
+  MACHINE_TYPE_GOLD,
+};
+
+enum {
+    ALPHA_NULL,
+    ALPHA_1,
+    ALPHA_2,
+};
+
 
 class InstallMainWindow : public QMainWindow
 {
@@ -53,6 +65,8 @@ private slots:
 
     void on_reboot_pushButton_clicked();
 
+    void on_machineTypeComboBox_currentIndexChanged(int index);
+
 private:
     Ui::InstallMainWindow *ui;
     QButtonGroup enableRadioGroup;
@@ -64,6 +78,9 @@ private:
     QString mac;
     QString gateway;
     QString netmask;
+
+    int machine_type;
+    int alpha_type;
 };
 
 #endif // INSTALLMAINWINDOW_H

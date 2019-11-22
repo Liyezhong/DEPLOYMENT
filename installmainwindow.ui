@@ -42,7 +42,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="Master">
      <attribute name="title">
@@ -658,25 +658,30 @@
      <widget class="QLabel" name="label_23">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>220</y>
-        <width>101</width>
+        <x>0</x>
+        <y>230</y>
+        <width>141</width>
         <height>20</height>
        </rect>
       </property>
       <property name="text">
-       <string>Machine Type:</string>
+       <string>Platinum/Gold Type:</string>
       </property>
      </widget>
      <widget class="QComboBox" name="machineTypeComboBox">
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>220</y>
+        <y>230</y>
         <width>91</width>
         <height>25</height>
        </rect>
       </property>
+      <item>
+       <property name="text">
+        <string/>
+       </property>
+      </item>
       <item>
        <property name="text">
         <string>Platinum</string>
@@ -714,6 +719,44 @@
        <string>Reboot</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_24">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>276</y>
+        <width>81</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Alpha Type:</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="alphaTypeComboBox">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>272</y>
+        <width>91</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string/>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Alpha1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Alpha2</string>
+       </property>
+      </item>
+     </widget>
      <zorder>label_10</zorder>
      <zorder>label_9</zorder>
      <zorder>ip_1_lineEdit</zorder>
@@ -746,6 +789,8 @@
      <zorder>machineTypeComboBox</zorder>
      <zorder>save_pushButton</zorder>
      <zorder>reboot_pushButton</zorder>
+     <zorder>label_24</zorder>
+     <zorder>alphaTypeComboBox</zorder>
     </widget>
    </widget>
   </widget>
