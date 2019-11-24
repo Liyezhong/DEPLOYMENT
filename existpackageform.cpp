@@ -17,11 +17,16 @@ ExistPackageForm::ExistPackageForm(QListWidget *listWidget, QListWidgetItem *lis
 
     if (package == nullptr)
         return;
-    char linkPath[512] = {0};
-    int ret = ::readlink(package->installDir.toStdString().c_str(), linkPath, 512);
-    if (ret < 0)
-        return;
-    if (!strcmp(linkPath, package->path.toStdString().c_str()))
+    qDebug() << "ui->name: " << ui->name->text();
+    qDebug() << "package->name: " << package->name;
+    ui->name->setText(package->name);
+
+//    char linkPath[512] = {0};
+//    int ret = ::readlink(package->installDir.toStdString().c_str(), linkPath, 512);
+//    if (ret < 0)
+//        return;
+//    if (!strcmp(linkPath, package->path.toStdString().c_str()))
+     if (package->isEnable)
         ui->enableRadioButton->setChecked(true);
 }
 
@@ -34,9 +39,10 @@ void ExistPackageForm::on_removeButton_clicked()
 {
     buttonGroup->removeButton(ui->enableRadioButton);
     listWidget->removeItemWidget(listWidgetItem);
-    if (package)
+    if (package) {
         this->package->remove();
-    delete package;
+        delete package;
+    }
 
     delete listWidgetItem;
 

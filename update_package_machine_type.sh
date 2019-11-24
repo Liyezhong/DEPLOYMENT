@@ -25,25 +25,6 @@ function set_platinum_gold_single()
     mv -f /tmp/DeviceConfiguration.xml $1
 }
 
-function update_platinum_gold()
-{
-    for i in `find */Settings -name 'DeviceConfiguration.xml'`; do
-        echo $i
-        awk -v machine_type=$1 '
-            /SERIALNUMBER=/{ 
-                for (i = 1; i <= NF; i++) {
-                    if (i == 7)
-                        printf substr($7, 1, length($7) - 2) machine_type "\"" " "
-                    else
-                        printf $i " "
-                }
-	        printf "\n"
-            }
-            !/SERIALNUMBER/{print $0}
-        ' $i  > /tmp/DeviceConfiguration.xml
-        mv -f /tmp/DeviceConfiguration.xml $i
-    done
-}
 
 function set_alpha_type_single()
 {
@@ -55,20 +36,6 @@ function set_alpha_type_single()
                 print
     }' $1 > /tmp/InstrumentConfigFile.ini
     mv -f /tmp/InstrumentConfigFile.ini $1
-}
-
-function update_alpha_type()
-{
-    for i in `find */Settings -name 'InstrumentConfigFile.ini'`; do
-        echo $i
-        awk -v alpha_type="$1" '{
-                if ($0 ~ /HwSpec/)
-                    print "HwSpec=\"" alpha_type "\""
-                else
-                    print
-        }' $i > /tmp/InstrumentConfigFile.ini
-        mv -f /tmp/InstrumentConfigFile.ini $i
-    done
 }
 
 

@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = INSTALL
+TARGET = DEPLOYMENT
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -29,14 +29,16 @@ SOURCES += \
     installformitem.cpp \
     existpackageform.cpp \
     installdialog.cpp \
-    package.cpp
+    package.cpp \
+    myapplication.cpp
 
 HEADERS += \
         installmainwindow.h \
     installformitem.h \
     existpackageform.h \
     installdialog.h \
-    package.h
+    package.h \
+    myapplication.h
 
 FORMS += \
         installmainwindow.ui \

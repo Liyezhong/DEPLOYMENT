@@ -42,7 +42,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="Master">
      <attribute name="title">
@@ -168,7 +168,7 @@
        <string>Exist MSW List</string>
       </property>
      </widget>
-     <widget class="QListWidget" name="ExistListWidget_3">
+     <widget class="QListWidget" name="ptsExistListWidget">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -178,7 +178,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QListWidget" name="AvaliableListWidget_3">
+     <widget class="QListWidget" name="ptsAvaliableListWidget">
       <property name="geometry">
        <rect>
         <x>470</x>
@@ -242,7 +242,7 @@
        <string>Available MSW packages</string>
       </property>
      </widget>
-     <widget class="QListWidget" name="ExistListWidget_4">
+     <widget class="QListWidget" name="serviceExistListWidget">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -252,7 +252,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QListWidget" name="AvaliableListWidget_4">
+     <widget class="QListWidget" name="serviceAvaliableListWidget">
       <property name="geometry">
        <rect>
         <x>470</x>

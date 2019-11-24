@@ -51,10 +51,12 @@ private:
     void newAvailablePackageItem(QListWidget *listWidget, size_t id, Package *package);
     void newExistPackageItem(QListWidget *listWidget, size_t id, Package *package);
 
+public slots:
+    void updateExistList(Package *package);
 
 private:
     //----------------------------------
-    QVector<Package *> *findInstallPackage(QString pattern);
+    QVector<Package *> *findPackage(QString script);
 
 private slots:
     void on_InstallTabWidget_currentChanged(int index);
@@ -73,6 +75,10 @@ private:
     QVector<Package *> *masterPackages;
     QVector<Package *> *ptsPackages;
     QVector<Package *> *servicePackages;
+
+    QVector<Package *> *masterInstallPackages;
+    QVector<Package *> *ptsInstallPackages;
+    QVector<Package *> *serviceInstallPackages;
 
     QString ip;
     QString mac;

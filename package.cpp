@@ -2,33 +2,62 @@
 #include <unistd.h>
 #include <QDebug>
 #include "package.h"
+#include <QThread>
 
-Package::Package(QString &name, QString &path, QString &installDir, QObject *parent)
+Package::Package(QString name, QString path, QString installDir, int totalTime, QObject *parent)
     : QObject(parent),
       isInstall(false),
       isRemove(false),
       name(name),
       path(path),
-      installDir(installDir)
+      installDir(installDir),
+      process(nullptr),
+      totalTime(totalTime),
+      progressValue(0)
 {
-     process = new QProcess();
+}
+
+void Package::_updateProgress()
+{
+    emit updateProgress(progressValue++);
 }
 
 void Package::install()
 {
+    process = new QProcess();
+    qint64 len;
+    connect(process, &QProcess::started, [&]() {
+        progressTimer = new QTimer();
+        connect(progressTimer, SIGNAL(timeout()), this, SLOT(_updateProgress()));
+        progressTimer->start(totalTime * 1000 / 100);
+    });
     connect(process, &QProcess::readyReadStandardOutput, [&]() {
-            while (process->canReadLine()) {
+//            len = process->bytesAvailable();
+            while (process->canReadLine() > 0) {
                 QString s(process->readLine());
+                qDebug() << "process's read: " << s;
                 emit updateText(s);
             }
     });
     connect(process, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
                [=](int exitCode, QProcess::ExitStatus exitStatus) {
         qDebug() << "exitCode: " << exitCode << " QProcess::ExitStatus: " << exitStatus;
+//        process->kill();
+//        process->waitForFinished();
+        while (++progressValue <= 100) {
+            emit updateProgress(progressValue);
+            QThread::msleep(30);
+        }
+        progressValue = 0;
+        progressTimer->stop();
+        delete progressTimer;
         emit this->finished();
+        emit this->updateExistList(this);
     });
 
-    process->start(this->path);
+    qDebug() << "path: " << this->path;
+    process->start("bash", QStringList() << "/usr/leica/bin/decode_package.sh" << this->path);
+//    qDebug() << process->readAll();
 }
 
 void Package::remove()
@@ -46,12 +75,22 @@ void Package::execute()
 
 void Package::setEnable()
 {
-    ::unlink(this->installDir.toStdString().c_str());
-    ::symlink(path.toStdString().c_str(), installDir.toStdString().c_str());
+//    ::unlink(this->installDir.toStdString().c_str());
+//    ::symlink(path.toStdString().c_str(), installDir.toStdString().c_str());
+//    ::sync();
+//    QString cmd = "unlink  " + installDir + "; ln -fs " + path + " " + installDir;
+    QProcess::execute("unlink", QStringList() << installDir);
+    QProcess::execute("ln", QStringList() << "-fs"
+                      << path
+                      << installDir);
     ::sync();
+    qDebug() << __FUNCTION__ << __LINE__;
 }
 
 Package::~Package()
 {
-    delete process;
+    if (process) {
+        process->kill();
+        delete process;
+    }
 }

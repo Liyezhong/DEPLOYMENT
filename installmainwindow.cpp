@@ -10,6 +10,12 @@
 
 InstallMainWindow::InstallMainWindow(QWidget *parent) :
     QMainWindow(parent),
+    masterPackages(nullptr),
+    masterInstallPackages(nullptr),
+    ptsPackages(nullptr),
+    ptsInstallPackages(nullptr),
+    servicePackages(nullptr),
+    serviceInstallPackages(nullptr),
     ui(new Ui::InstallMainWindow)
 {
     ui->setupUi(this);
@@ -53,12 +59,30 @@ void InstallMainWindow::on_InstallTabWidget_currentChanged(int index)
 
     switch(index) {
     case MASTER:
+        if (masterPackages)
+        masterPackages->clear();
+        if (masterInstallPackages)
+        masterInstallPackages->clear();
+        ui->AvaliableListWidget->clear();
+        ui->ExistListWidget->clear();
         masterHandle();
         break;
     case PTS:
+        if (ptsPackages)
+        ptsPackages->clear();
+        if (ptsInstallPackages)
+        ptsInstallPackages->clear();
+        ui->ptsAvaliableListWidget->clear();
+        ui->ptsExistListWidget->clear();
         ptsHandle();
         break;
     case SERVICE:
+        if (servicePackages)
+        servicePackages->clear();
+        if (serviceInstallPackages)
+        serviceInstallPackages->clear();
+        ui->serviceAvaliableListWidget->clear();
+        ui->serviceExistListWidget->clear();
         serviceHandle();
         break;
     case SETTINGS:
@@ -72,16 +96,53 @@ void InstallMainWindow::on_InstallTabWidget_tabBarClicked(int index)
 
 }
 
-QVector<Package *> * InstallMainWindow::findInstallPackage(QString pattern)
+QVector<Package *> * InstallMainWindow::findPackage(QString script)
 {
     QVector<Package *> *vector = new QVector<Package *>();
 
     //
+    QProcess findPackageProcess;
+    QStringList parameter;
+    parameter << script;
+    findPackageProcess.start("bash", parameter);
 
+    if (!findPackageProcess.waitForFinished())
+        return vector;
+    QString result(findPackageProcess.readAll());
+    // MSW_dev_01.101.280=/home/root/MSW_dev_01.101.280=0
+    // MSW_dev_01.101.287=/home/root/MSW_dev_01.101.287.sh
+    qDebug() << "result: " << result;
 
+    if (!result.isEmpty()) {
+        foreach (const QString &str, result.split('\n')) {
+            auto item = str.split('=');
+            qDebug() << "item: " << item;
+            qDebug() << "item's size: " << item.size();
+            if (item.size() < 2)
+                break;
+            QString installDir;
+            int totalTime;
+            if (script.contains("master")) {
+                installDir = "/home/root/skyline_arm";
+                totalTime = 150; // 150 seconds
+            } else if (script.contains("pts")) {
+                installDir = "/home/root/prototest";
+                totalTime = 30;
+            } else if (script.contains("service")) {
+                installDir = "/home/root/service";
+                totalTime = 30;
+            }
 
-
-    //
+            auto package = new Package(item.at(0), item.at(1), installDir, totalTime);
+            if (item.size() == 2) {
+                    package->isEnable = false;
+            } else {
+                    package->isEnable = true;
+            }
+            vector->push_back(package);
+            connect(package, SIGNAL(updateExistList(Package*)), this, SLOT(updateExistList(Package*)));
+        }
+    }
 
     return vector;
 }
@@ -89,7 +150,7 @@ QVector<Package *> * InstallMainWindow::findInstallPackage(QString pattern)
 void InstallMainWindow::newExistPackageItem(QListWidget *listWidget, size_t id, Package *package)
 {
     auto listWidgetItem = new QListWidgetItem();
-    ExistPackageForm *item = new ExistPackageForm(listWidget, listWidgetItem, &enableRadioGroup, package, this);
+    ExistPackageForm *item = new ExistPackageForm(listWidget, listWidgetItem, &enableRadioGroup, package);
     listWidget->addItem(listWidgetItem);
     listWidget->setItemWidget(listWidgetItem, item);
     listWidgetItem->setSizeHint(item->size());
@@ -97,54 +158,78 @@ void InstallMainWindow::newExistPackageItem(QListWidget *listWidget, size_t id, 
 
 void InstallMainWindow::newAvailablePackageItem(QListWidget *listWidget, size_t id, Package *package)
 {
-    InstallFormItem *item = new InstallFormItem(id, package, this);
+    InstallFormItem *item = new InstallFormItem(id, package);
     auto listWidgetItem = new QListWidgetItem();
     listWidget->addItem(listWidgetItem);
     listWidget->setItemWidget(listWidgetItem, item);
     listWidgetItem->setSizeHint(item->size());
 }
 
+void InstallMainWindow::updateExistList(Package *package)
+{
+    if (package->name.contains("MSW"))
+       on_InstallTabWidget_currentChanged(MASTER);
+    else if (package->name.contains("PTS"))
+       on_InstallTabWidget_currentChanged(PTS);
+    else if (package->name.contains("SVC"))
+       on_InstallTabWidget_currentChanged(SERVICE);
+}
+
 void InstallMainWindow::masterHandle()
 {
     int i = 0;
-    masterPackages = this->findInstallPackage("MSW_*.sh");
-#if 0
-    for (auto package: *ptsPackages) {
-        i++
+    masterPackages = this->findPackage("/usr/leica/bin/find_master.sh");
+#if 1
+    for (auto package: *masterPackages) {
 #else
     Package *package = nullptr;
     for (i = 0; i < 10; i++) {
 #endif
-        newAvailablePackageItem(ui->AvaliableListWidget, i, package);
-        newExistPackageItem(ui->ExistListWidget, i, package);
+        newExistPackageItem(ui->ExistListWidget, i++, package);
     }
+
+    masterInstallPackages = this->findPackage("/usr/leica/bin/find_master_install.sh");
+    i = 0;
+    for (auto package: *masterInstallPackages)
+        newAvailablePackageItem(ui->AvaliableListWidget, i++, package);
 }
 
 void InstallMainWindow::ptsHandle()
 {
     int i = 0;
-    ptsPackages = this->findInstallPackage("PTS_*.sh");
-#if 0
+    ptsPackages = this->findPackage("/usr/leica/bin/find_pts.sh");
+#if 1
     for (auto package: *ptsPackages) {
-        i++
 #else
     Package *package = nullptr;
     for (i = 0; i < 10; i++) {
 #endif
-        newAvailablePackageItem(ui->AvaliableListWidget, i, package);
-        newExistPackageItem(ui->ExistListWidget, i, package);
+        newExistPackageItem(ui->ptsExistListWidget, i++, package);
     }
+
+    ptsInstallPackages = this->findPackage("/usr/leica/bin/find_pts_install.sh");
+    i = 0;
+    for (auto package: *ptsInstallPackages)
+        newAvailablePackageItem(ui->ptsAvaliableListWidget, i++, package);
 }
 
 void InstallMainWindow::serviceHandle()
 {
     int i = 0;
-    servicePackages = this->findInstallPackage("SVC_*.sh");
+    servicePackages = this->findPackage("/usr/leica/bin/find_service.sh");
+#if 1
     for (auto package: *servicePackages) {
-        i++;
-        newAvailablePackageItem(ui->AvaliableListWidget, i, package);
-        newExistPackageItem(ui->ExistListWidget, i, package);
+#else
+    Package *package = nullptr;
+    for (i = 0; i < 10; i++) {
+#endif
+        newExistPackageItem(ui->serviceExistListWidget, i++, package);
     }
+
+    serviceInstallPackages = this->findPackage("/usr/leica/bin/find_service_install.sh");
+    i = 0;
+    for (auto package: *serviceInstallPackages)
+        newAvailablePackageItem(ui->serviceAvaliableListWidget, i++, package);
 }
 
 void InstallMainWindow::settingsHandle()
@@ -161,43 +246,45 @@ void InstallMainWindow::settingsHandle()
         QString result(ip_mac.readAll());
         qDebug() << "result: " << result;
 
-        foreach (const QString &str, result.split('\n')) {
-            auto item = str.split('=');
-            if (item.at(0) == "ip") {
-                ip = item.at(1);
-                qDebug() << " ip: " << item.at(1);
-            } else if (item.at(0) == "mac") {
-                mac = item.at(1);
-                qDebug() << " mac: " << item.at(1);
-            } else if (item.at(0) == "gateway") {
-                gateway = item.at(1);
-                qDebug() << " gateway: " << item.at(1);
-            } else if (item.at(0) == "netmask") {
-                netmask = item.at(1);
-                qDebug() << " netmask: " << item.at(1);
+        if (!result.isEmpty()) {
+            foreach (const QString &str, result.split('\n')) {
+                auto item = str.split('=');
+                if (item.at(0) == "ip") {
+                    ip = item.at(1);
+                    qDebug() << " ip: " << item.at(1);
+                } else if (item.at(0) == "mac") {
+                    mac = item.at(1);
+                    qDebug() << " mac: " << item.at(1);
+                } else if (item.at(0) == "gateway") {
+                    gateway = item.at(1);
+                    qDebug() << " gateway: " << item.at(1);
+                } else if (item.at(0) == "netmask") {
+                    netmask = item.at(1);
+                    qDebug() << " netmask: " << item.at(1);
+                }
             }
+
+            // run ip_mac_read.sh
+            auto ipList = ip.split('.');
+            ui->ip_1_lineEdit->setText(ipList.at(0));
+            ui->ip_2_lineEdit->setText(ipList.at(1));
+            ui->ip_3_lineEdit->setText(ipList.at(2));
+            ui->ip_4_lineEdit->setText(ipList.at(3));
+
+            auto gatewayList = gateway.split('.');
+            ui->gateway_1_lineEdit->setText(gatewayList.at(0));
+            ui->gateway_2_lineEdit->setText(gatewayList.at(1));
+            ui->gateway_3_lineEdit->setText(gatewayList.at(2));
+            ui->gateway_4_lineEdit->setText(gatewayList.at(3));
+
+            auto macList = mac.split(':');
+            ui->mac_1_lineEdit->setText(macList.at(0));
+            ui->mac_2_lineEdit->setText(macList.at(1));
+            ui->mac_3_lineEdit->setText(macList.at(2));
+            ui->mac_4_lineEdit->setText(macList.at(3));
+            ui->mac_5_lineEdit->setText(macList.at(4));
+            ui->mac_6_lineEdit->setText(macList.at(5));
         }
-
-        // run ip_mac_read.sh
-        auto ipList = ip.split('.');
-        ui->ip_1_lineEdit->setText(ipList.at(0));
-        ui->ip_2_lineEdit->setText(ipList.at(1));
-        ui->ip_3_lineEdit->setText(ipList.at(2));
-        ui->ip_4_lineEdit->setText(ipList.at(3));
-
-        auto gatewayList = gateway.split('.');
-        ui->gateway_1_lineEdit->setText(gatewayList.at(0));
-        ui->gateway_2_lineEdit->setText(gatewayList.at(1));
-        ui->gateway_3_lineEdit->setText(gatewayList.at(2));
-        ui->gateway_4_lineEdit->setText(gatewayList.at(3));
-
-        auto macList = mac.split(':');
-        ui->mac_1_lineEdit->setText(macList.at(0));
-        ui->mac_2_lineEdit->setText(macList.at(1));
-        ui->mac_3_lineEdit->setText(macList.at(2));
-        ui->mac_4_lineEdit->setText(macList.at(3));
-        ui->mac_5_lineEdit->setText(macList.at(4));
-        ui->mac_6_lineEdit->setText(macList.at(5));
     }
 
     // Platinum / Gold, Alpha
@@ -248,14 +335,14 @@ void InstallMainWindow::on_save_pushButton_clicked()
             || ui->ip_2_lineEdit->text().isEmpty()
             || ui->ip_3_lineEdit->text().isEmpty()
             || ui->ip_4_lineEdit->text().isEmpty()) {
-        QMessageBox::warning(this, "Warnning", "Please note that the ip adress must be specified");
+        QMessageBox::warning(this, "Warnning", "Please note that the ip address must be specified");
         return;
     }
     if (ui->gateway_1_lineEdit->text().isEmpty()
             || ui->gateway_2_lineEdit->text().isEmpty()
             || ui->gateway_3_lineEdit->text().isEmpty()
             || ui->gateway_4_lineEdit->text().isEmpty()) {
-        QMessageBox::warning(this, "Warnning", "Please note that the gateway ip adress must be specified");
+        QMessageBox::warning(this, "Warnning", "Please note that the gateway ip address must be specified");
         return;
     }
     if (ui->mac_1_lineEdit->text().isEmpty()

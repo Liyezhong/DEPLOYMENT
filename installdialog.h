@@ -19,11 +19,18 @@ public:
 public slots:
     void updateProgress(int value);
     void updateText(QString &text);
+    void _finished();
+
+protected:
+    void closeEvent(QCloseEvent *ev);
 
 private:
     Ui::installDialog *ui;
     Package *package;
     QThread *thread;
+
+    int totalTime;
+    QTimer progressTimer;
 };
 
 #endif // INSTALLDIALOG_H
