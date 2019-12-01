@@ -10,10 +10,10 @@ bool MyApplication::notify(QObject* receiver, QEvent* event) {
   try {
     done = QApplication::notify(receiver, event);
   } catch (const std::exception& ex) {
-    // ログや何らかの回復処理
+    //
 
   } catch (...) {
-    // ログや何らかの回復処理
+    //
 
   }
   return done;

@@ -411,9 +411,10 @@ void InstallMainWindow::on_save_pushButton_clicked()
                   << mac
                   << gateway;
         QProcess::execute("bash", parameter);
-
+    }
+    {
         // machine type
-        parameter.clear();
+        QStringList parameter;
         parameter << "/usr/leica/bin/update_machine_type.sh"
                   << "w";
         switch (machine_type) {

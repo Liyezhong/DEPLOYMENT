@@ -28,7 +28,10 @@ function set_platinum_gold_single()
 
 function set_alpha_type_single()
 {
-    echo $1
+    type_alpha_str=""
+    [ "$1" = "Alpha1" ] && type_alpha_str="hw_specification_ALPHA1.xml"
+    [ "$1" = "Alpha2" ] && type_alpha_str="hw_specification.xml"
+    echo "$1 $type_alpha_str"
     awk -v alpha_type="$2" '{
             if ($0 ~ /HwSpec/)
                 print "HwSpec=\"" alpha_type "\""
