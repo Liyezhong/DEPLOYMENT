@@ -40,6 +40,7 @@ public:
     QTimer *progressTimer;
     int totalTime;
     int progressValue;
+    QString installScript;
 };
 
 #endif // PACKAGE_H

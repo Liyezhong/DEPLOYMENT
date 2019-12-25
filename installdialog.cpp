@@ -71,6 +71,6 @@ installDialog::~installDialog()
 
 void installDialog::closeEvent(QCloseEvent *ev)
 {
-ev->accept();
+    ev->accept();
 }
 

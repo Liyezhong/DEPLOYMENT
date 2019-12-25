@@ -46,6 +46,8 @@ private:
     void ptsHandle();
     void serviceHandle();
     void settingsHandle();
+    void slaveHandle();
+
 
 private:
     void newAvailablePackageItem(QListWidget *listWidget, size_t id, Package *package);
@@ -75,10 +77,12 @@ private:
     QVector<Package *> *masterPackages;
     QVector<Package *> *ptsPackages;
     QVector<Package *> *servicePackages;
+    QVector<Package *> *slavePackages;
 
     QVector<Package *> *masterInstallPackages;
     QVector<Package *> *ptsInstallPackages;
     QVector<Package *> *serviceInstallPackages;
+    QVector<Package *> *slaveInstallPackages;
 
     QString ip;
     QString mac;

@@ -5,8 +5,7 @@ PAYLOAD_OFFSET=$(($(grep -na -m1 "^__END__$" $1 | cut -d':' -f1)+1))
 #RELEASE_BUILD_NAME=$(tail -n +$PAYLOAD_OFFSET $1  \
 #    | tar tvj | head -1 | awk '{print $6}' | cut -d'/' -f1)
 
-RELEASE_BUILD_NAME=$1
-RELEASE_BUILD_NAME=${RELEASE_BUILD_NAME##*/}
+RELEASE_BUILD_NAME=${1##*/}
 RELEASE_BUILD_NAME=${RELEASE_BUILD_NAME%.*}
 
 #echo $RELEASE_BUILD_NAME

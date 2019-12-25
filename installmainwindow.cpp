@@ -44,8 +44,6 @@ InstallMainWindow::InstallMainWindow(QWidget *parent) :
     ui->mac_4_lineEdit->setValidator(new QRegExpValidator(rx, this));
     ui->mac_5_lineEdit->setValidator(new QRegExpValidator(rx, this));
     ui->mac_6_lineEdit->setValidator(new QRegExpValidator(rx, this));
-
-
 }
 
 InstallMainWindow::~InstallMainWindow()
@@ -84,6 +82,12 @@ void InstallMainWindow::on_InstallTabWidget_currentChanged(int index)
         ui->serviceAvaliableListWidget->clear();
         ui->serviceExistListWidget->clear();
         serviceHandle();
+        break;
+    case SLAVE:
+        if (slaveInstallPackages)
+            slaveInstallPackages->clear();
+        ui->slaveAvaliableListWidget->clear();
+        slaveHandle();
         break;
     case SETTINGS:
         settingsHandle();
@@ -131,6 +135,9 @@ QVector<Package *> * InstallMainWindow::findPackage(QString script)
             } else if (script.contains("service")) {
                 installDir = "/home/root/service";
                 totalTime = 30;
+            } else if (script.contains("SLAVE")) {
+//                installDir = "";
+                totalTime = 150;
             }
 
             auto package = new Package(item.at(0), item.at(1), installDir, totalTime);
@@ -139,6 +146,10 @@ QVector<Package *> * InstallMainWindow::findPackage(QString script)
             } else {
                     package->isEnable = true;
             }
+            if (script.contains("SLAVE"))
+                package->installScript = "/usr/leica/bin/decode_package.sh";
+            else
+                package->installScript = "/usr/leica/bin/asb_firmware_update.sh";
             vector->push_back(package);
             connect(package, SIGNAL(updateExistList(Package*)), this, SLOT(updateExistList(Package*)));
         }
@@ -230,6 +241,15 @@ void InstallMainWindow::serviceHandle()
     i = 0;
     for (auto package: *serviceInstallPackages)
         newAvailablePackageItem(ui->serviceAvaliableListWidget, i++, package);
+}
+
+void InstallMainWindow::slaveHandle()
+{
+    int i = 0;
+
+    slaveInstallPackages = this->findPackage("/usr/leica/bin/find_slave_install.sh");
+    for (auto package: *slaveInstallPackages)
+        newAvailablePackageItem(ui->slaveAvaliableListWidget, i++, package);
 }
 
 void InstallMainWindow::settingsHandle()

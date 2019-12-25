@@ -33,6 +33,7 @@ void Package::install()
     });
     connect(process, &QProcess::readyReadStandardOutput, [&]() {
 //            len = process->bytesAvailable();
+        qDebug() << "process->bytesAvailable(): " << process->bytesAvailable();
             while (process->canReadLine() > 0) {
                 QString s(process->readLine());
                 qDebug() << "process's read: " << s;
@@ -56,7 +57,7 @@ void Package::install()
     });
 
     qDebug() << "path: " << this->path;
-    process->start("bash", QStringList() << "/usr/leica/bin/decode_package.sh" << this->path);
+    process->start("bash", QStringList() << this->installScript << this->path);
 //    qDebug() << process->readAll();
 }
 
