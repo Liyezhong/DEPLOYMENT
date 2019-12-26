@@ -63,6 +63,9 @@ void Package::install()
 void Package::remove()
 {
     QString cmd = "rm -rf " + path;
+    if (isEnable == true) {
+        cmd += " " + installDir;
+    }
     QProcess::execute(cmd);
     ::sync();
     qDebug() << __FUNCTION__ << __LINE__;
@@ -79,12 +82,13 @@ void Package::setEnable()
 //    ::symlink(path.toStdString().c_str(), installDir.toStdString().c_str());
 //    ::sync();
 //    QString cmd = "unlink  " + installDir + "; ln -fs " + path + " " + installDir;
-    QProcess::execute("unlink", QStringList() << installDir);
+
+    QProcess::execute("rm", QStringList() << "-f" << installDir);
     QProcess::execute("ln", QStringList() << "-fs"
                       << path
                       << installDir);
     ::sync();
-    qDebug() << __FUNCTION__ << __LINE__;
+    qDebug() << __FUNCTION__ << __LINE__ << "installDir: " << installDir;
 }
 
 Package::~Package()

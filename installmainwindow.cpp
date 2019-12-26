@@ -135,9 +135,13 @@ QVector<Package *> * InstallMainWindow::findPackage(QString script)
 
             auto package = new Package(item.at(0), item.at(1), installDir, totalTime);
             if (item.size() == 2) {
-                    package->isEnable = false;
+                package->isEnable = false;
             } else {
+                bool isEnabledFlag = (bool)QString(item.at(2)).toInt();
+                if (isEnabledFlag)
                     package->isEnable = true;
+                else
+                    package->isEnable = false;
             }
             vector->push_back(package);
             connect(package, SIGNAL(updateExistList(Package*)), this, SLOT(updateExistList(Package*)));
