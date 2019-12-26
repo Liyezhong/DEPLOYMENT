@@ -142,9 +142,13 @@ QVector<Package *> * InstallMainWindow::findPackage(QString script)
 
             auto package = new Package(item.at(0), item.at(1), installDir, totalTime);
             if (item.size() == 2) {
-                    package->isEnable = false;
+                package->isEnable = false;
             } else {
+                bool isEnabledFlag = (bool)QString(item.at(2)).toInt();
+                if (isEnabledFlag)
                     package->isEnable = true;
+                else
+                    package->isEnable = false;
             }
             if (script.contains("SLAVE"))
                 package->installScript = "/usr/leica/bin/decode_package.sh";
