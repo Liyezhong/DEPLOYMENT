@@ -37,7 +37,7 @@ installDialog::installDialog(Package *package, QWidget *parent) :
 
     thread->start();
     connect(package, SIGNAL(updateProgress(int)), this, SLOT(updateProgress(int)));
-    connect(package, SIGNAL(updateText(QString&)), this, SLOT(updateText(QString&)));
+    connect(package, SIGNAL(updateText(QString)), this, SLOT(updateText(QString)));
     connect(package, SIGNAL(finished()), this, SLOT(_finished()));
 
 }
@@ -53,7 +53,7 @@ void installDialog::updateProgress(int value)
     ui->progressBar->setValue(value);
 }
 
-void installDialog::updateText(QString &text)
+void installDialog::updateText(QString text)
 {
 //    ui->textBrowser->append(text + "\n");
 }

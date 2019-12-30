@@ -27,7 +27,7 @@ function set_platinum_gold_single()
 
 function update_platinum_gold()
 {
-    for i in `find */Settings -name 'DeviceConfiguration.xml'`; do
+    for i in `find Settings -name 'DeviceConfiguration.xml'`; do
         echo $i
         awk -v machine_type=$1 '
             /SERIALNUMBER=/{ 
@@ -59,7 +59,7 @@ function set_alpha_type_single()
 
 function update_alpha_type()
 {
-    for i in `find */Settings -name 'InstrumentConfigFile.ini'`; do
+    for i in `find Settings -name 'InstrumentConfigFile.ini'`; do
         echo $i
         awk -v alpha_type="$1" '{
                 if ($0 ~ /HwSpec/)
@@ -113,7 +113,9 @@ function update_alpha_type()
     type_alpha_str=""
     [ "$3" = "Alpha1" ] && type_alpha_str="hw_specification_ALPHA1.xml"
     [ "$3" = "Alpha2" ] && type_alpha_str="hw_specification.xml"
+set -x
     update_alpha_type $type_alpha_str
+set +x
 
     sync
 }

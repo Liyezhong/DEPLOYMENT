@@ -16,6 +16,7 @@ InstallMainWindow::InstallMainWindow(QWidget *parent) :
     ptsInstallPackages(nullptr),
     servicePackages(nullptr),
     serviceInstallPackages(nullptr),
+    slaveInstallPackages(nullptr),
     ui(new Ui::InstallMainWindow)
 {
     ui->setupUi(this);
@@ -58,27 +59,27 @@ void InstallMainWindow::on_InstallTabWidget_currentChanged(int index)
     switch(index) {
     case MASTER:
         if (masterPackages)
-        masterPackages->clear();
+            masterPackages->clear();
         if (masterInstallPackages)
-        masterInstallPackages->clear();
+            masterInstallPackages->clear();
         ui->AvaliableListWidget->clear();
         ui->ExistListWidget->clear();
         masterHandle();
         break;
     case PTS:
         if (ptsPackages)
-        ptsPackages->clear();
+            ptsPackages->clear();
         if (ptsInstallPackages)
-        ptsInstallPackages->clear();
+            ptsInstallPackages->clear();
         ui->ptsAvaliableListWidget->clear();
         ui->ptsExistListWidget->clear();
         ptsHandle();
         break;
     case SERVICE:
         if (servicePackages)
-        servicePackages->clear();
+            servicePackages->clear();
         if (serviceInstallPackages)
-        serviceInstallPackages->clear();
+            serviceInstallPackages->clear();
         ui->serviceAvaliableListWidget->clear();
         ui->serviceExistListWidget->clear();
         serviceHandle();
@@ -103,6 +104,8 @@ void InstallMainWindow::on_InstallTabWidget_tabBarClicked(int index)
 QVector<Package *> * InstallMainWindow::findPackage(QString script)
 {
     QVector<Package *> *vector = new QVector<Package *>();
+
+    qDebug() << "script: " << script;
 
     //
     QProcess findPackageProcess;
@@ -135,25 +138,21 @@ QVector<Package *> * InstallMainWindow::findPackage(QString script)
             } else if (script.contains("service")) {
                 installDir = "/home/root/service";
                 totalTime = 30;
-            } else if (script.contains("SLAVE")) {
+            } else if (script.contains("slave")) {
 //                installDir = "";
-                totalTime = 150;
+                totalTime = 360;
             }
 
             auto package = new Package(item.at(0), item.at(1), installDir, totalTime);
             if (item.size() == 2) {
                 package->isEnable = false;
             } else {
-                bool isEnabledFlag = (bool)QString(item.at(2)).toInt();
-                if (isEnabledFlag)
-                    package->isEnable = true;
-                else
-                    package->isEnable = false;
+                package->isEnable = (bool)QString(item.at(2)).toInt();
             }
-            if (script.contains("SLAVE"))
-                package->installScript = "/usr/leica/bin/decode_package.sh";
-            else
+            if (script.contains("slave"))
                 package->installScript = "/usr/leica/bin/asb_firmware_update.sh";
+            else
+                package->installScript = "/usr/leica/bin/decode_package.sh";
             vector->push_back(package);
             connect(package, SIGNAL(updateExistList(Package*)), this, SLOT(updateExistList(Package*)));
         }
@@ -194,12 +193,8 @@ void InstallMainWindow::masterHandle()
 {
     int i = 0;
     masterPackages = this->findPackage("/usr/leica/bin/find_master.sh");
-#if 1
+
     for (auto package: *masterPackages) {
-#else
-    Package *package = nullptr;
-    for (i = 0; i < 10; i++) {
-#endif
         newExistPackageItem(ui->ExistListWidget, i++, package);
     }
 
@@ -213,12 +208,7 @@ void InstallMainWindow::ptsHandle()
 {
     int i = 0;
     ptsPackages = this->findPackage("/usr/leica/bin/find_pts.sh");
-#if 1
     for (auto package: *ptsPackages) {
-#else
-    Package *package = nullptr;
-    for (i = 0; i < 10; i++) {
-#endif
         newExistPackageItem(ui->ptsExistListWidget, i++, package);
     }
 
@@ -232,12 +222,7 @@ void InstallMainWindow::serviceHandle()
 {
     int i = 0;
     servicePackages = this->findPackage("/usr/leica/bin/find_service.sh");
-#if 1
     for (auto package: *servicePackages) {
-#else
-    Package *package = nullptr;
-    for (i = 0; i < 10; i++) {
-#endif
         newExistPackageItem(ui->serviceExistListWidget, i++, package);
     }
 

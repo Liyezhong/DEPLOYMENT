@@ -21,7 +21,7 @@ public:
 
 signals:
     void updateProgress(int value);
-    void updateText(QString &text);
+    void updateText(QString text);
     void finished(void);
     void updateExistList(Package *);
 

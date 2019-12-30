@@ -56,7 +56,7 @@ void Package::install()
         emit this->updateExistList(this);
     });
 
-    qDebug() << "path: " << this->path;
+    qDebug() << "installScript: " << installScript << "path: " << this->path;
     process->start("bash", QStringList() << this->installScript << this->path);
 //    qDebug() << process->readAll();
 }

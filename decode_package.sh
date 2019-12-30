@@ -31,4 +31,20 @@ fi
 
 rm -fr $INSTALL_BUILD_NAME
 ln -fs $RELEASE_BUILD_NAME $INSTALL_BUILD_NAME
+
+cd $INSTALL_BUILD_NAME
+
+#MACHINE_TYPE=Platinum
+#ALPHA_TYPE=Alpha2
+data=$(/usr/leica/bin/update_machine_type.sh r) 
+MACHINE_TYPE=`echo $data | awk -F' ' '{ print $1 }' | awk -F'=' '{print $NF}'`
+[ -z "$MACHINE_TYPE" ] && sync && sync && exit 0
+ALPHA_TYPE=`echo $data | awk -F' ' '{ print $NF }' | awk -F'=' '{print $NF}'`
+[ -z "$ALPHA_TYPE" ] && sync && sync && exit 0
+
+set -x
+# update machine_type & alpha_type
+/usr/leica/bin/update_machine_type.sh w $MACHINE_TYPE $ALPHA_TYPE
+
+sync
 sync

@@ -18,7 +18,7 @@ public:
 
 public slots:
     void updateProgress(int value);
-    void updateText(QString &text);
+    void updateText(QString text);
     void _finished();
 
 protected:
