@@ -21,11 +21,8 @@ InstallMainWindow::InstallMainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-//    this->setWindowOpacity(1);
-//    this->setWindowFlags(Qt::FramelessWindowHint);
-//    this->setAttribute(Qt::WA_TranslucentBackground);
-
     ui->InstallTabWidget->setCurrentIndex(0);
+    on_InstallTabWidget_currentChanged(0);
     enableRadioGroup.setExclusive(true);
 
     ui->ip_1_lineEdit->setValidator(new QIntValidator(1, 254));
@@ -94,11 +91,6 @@ void InstallMainWindow::on_InstallTabWidget_currentChanged(int index)
         settingsHandle();
         break;
     }
-}
-
-void InstallMainWindow::on_InstallTabWidget_tabBarClicked(int index)
-{
-
 }
 
 QVector<Package *> * InstallMainWindow::findPackage(QString script)
@@ -286,6 +278,12 @@ void InstallMainWindow::settingsHandle()
             ui->gateway_3_lineEdit->setText(gatewayList.at(2));
             ui->gateway_4_lineEdit->setText(gatewayList.at(3));
 
+            auto netmaskList = netmask.split('.');
+            ui->mask_1_lineEdit->setText(netmaskList.at(0));
+            ui->mask_2_lineEdit->setText(netmaskList.at(1));
+            ui->mask_3_lineEdit->setText(netmaskList.at(2));
+            ui->mask_4_lineEdit->setText(netmaskList.at(3));
+
             auto macList = mac.split(':');
             ui->mac_1_lineEdit->setText(macList.at(0));
             ui->mac_2_lineEdit->setText(macList.at(1));
@@ -400,6 +398,14 @@ void InstallMainWindow::on_save_pushButton_clicked()
         is_modify = true;
         gateway = gateway_new;
     }
+    QString netmask_new = ui->mask_1_lineEdit->text()
+            + "." + ui->mask_2_lineEdit->text()
+            + "." + ui->mask_3_lineEdit->text()
+            + "." + ui->mask_4_lineEdit->text();
+    if (netmask != netmask_new) {
+        is_modify = true;
+        netmask = netmask_new;
+    }
 
     if (machine_type != ui->machineTypeComboBox->currentIndex()) {
         is_modify = true;
@@ -412,15 +418,15 @@ void InstallMainWindow::on_save_pushButton_clicked()
     }
 
     if (is_modify == true) {
-
         // ip mac gateway
         QStringList parameter;
         parameter << "/usr/leica/bin/ip_mac_write.sh"
                   << ip
                   << mac
-                  << gateway;
+                  << gateway << netmask;
         QProcess::execute("bash", parameter);
     }
+
     {
         // machine type
         QStringList parameter;
@@ -457,4 +463,25 @@ void InstallMainWindow::on_reboot_pushButton_clicked()
 void InstallMainWindow::on_machineTypeComboBox_currentIndexChanged(int index)
 {
     qDebug() << "machine_type: " << index;
+}
+
+void InstallMainWindow::on_pushButton_clicked()
+{
+    QProcess asbVersionProcess;
+    QStringList parameter;
+    parameter << "/usr/leica/bin/asb_version.sh";
+    asbVersionProcess.start("bash", parameter);
+
+    if (!asbVersionProcess.waitForFinished())
+        return;
+    QString result(asbVersionProcess.readAllStandardOutput());
+    qDebug() << "result: " << result;
+    for (const QString &str : result.split('\n')) {
+        if (str.contains("ASB20"))
+            ui->asb20LineEdit->setText(str.split(':').at(1));
+        if (str.contains("ASB21"))
+            ui->asb21LineEdit->setText(str.split(':').at(1));
+        if (str.contains("ASB22"))
+            ui->asb22LineEdit->setText(str.split(':').at(1));
+    }
 }

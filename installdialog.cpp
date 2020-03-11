@@ -12,16 +12,6 @@ installDialog::installDialog(Package *package, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // textbrowser background and text color.
-//    QPalette pal;
-//    pal = ui->textBrowser->palette();
-//    pal.setColor(QPalette::Base, QColor(0,0,0));
-//    ui->textBrowser->setPalette(pal);
-//    ui->textBrowser->setStyleSheet("color:white;");
-
-//    ui->textBrowser->append("10000\n1000\n2000\n3000\n");
-//    ui->textBrowser->append("10000\n1000\n2000\n3000\n");
-
     //
     updateProgress(0);
 
@@ -39,12 +29,11 @@ installDialog::installDialog(Package *package, QWidget *parent) :
     connect(package, SIGNAL(updateProgress(int)), this, SLOT(updateProgress(int)));
     connect(package, SIGNAL(updateText(QString)), this, SLOT(updateText(QString)));
     connect(package, SIGNAL(finished()), this, SLOT(_finished()));
-
 }
 
 void installDialog::_finished()
 {
-//    QMessageBox::information(this, "Information", "Installation successful!");
+
     this->accept();
 }
 

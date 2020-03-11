@@ -49,9 +49,9 @@
   <widget class="QPushButton" name="installButton">
    <property name="geometry">
     <rect>
-     <x>405</x>
-     <y>30</y>
-     <width>89</width>
+     <x>413</x>
+     <y>26</y>
+     <width>81</width>
      <height>25</height>
     </rect>
    </property>
@@ -104,10 +104,12 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>:/ico/images/leica_log.png</pixmap>
+    <pixmap resource="image.qrc">:/ico/images/leica_log.png</pixmap>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="image.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -32,7 +32,6 @@ enum {
     ALPHA_2,
 };
 
-
 class InstallMainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -63,13 +62,13 @@ private:
 private slots:
     void on_InstallTabWidget_currentChanged(int index);
 
-    void on_InstallTabWidget_tabBarClicked(int index);
-
     void on_save_pushButton_clicked();
 
     void on_reboot_pushButton_clicked();
 
     void on_machineTypeComboBox_currentIndexChanged(int index);
+
+    void on_pushButton_clicked();
 
 private:
     Ui::InstallMainWindow *ui;

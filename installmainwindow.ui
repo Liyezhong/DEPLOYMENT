@@ -276,9 +276,9 @@
      <widget class="QLabel" name="label_25">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>510</x>
         <y>20</y>
-        <width>211</width>
+        <width>231</width>
         <height>51</height>
        </rect>
       </property>
@@ -297,7 +297,7 @@
      <widget class="QListWidget" name="slaveAvaliableListWidget">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>370</x>
         <y>70</y>
         <width>531</width>
         <height>641</height>
@@ -308,6 +308,128 @@
         <width>550</width>
         <height>16777215</height>
        </size>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="asb20LineEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>210</y>
+        <width>351</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>3</x>
+        <y>188</y>
+        <width>61</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ASB 20:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>150</y>
+        <width>161</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Refresh Version</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_30">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>317</y>
+        <width>61</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ASB 22:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="asb22LineEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>340</y>
+        <width>351</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_31">
+      <property name="geometry">
+       <rect>
+        <x>6</x>
+        <y>250</y>
+        <width>61</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ASB 21:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="asb21LineEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>273</y>
+        <width>351</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_version">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>191</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
+      </property>
+      <property name="midLineWidth">
+       <number>2</number>
+      </property>
+      <property name="text">
+       <string>Please click  the &quot;Refresh Version&quot; button to get the latest slave version information</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -426,7 +548,7 @@
       <property name="geometry">
        <rect>
         <x>350</x>
-        <y>120</y>
+        <y>168</y>
         <width>16</width>
         <height>17</height>
        </rect>
@@ -444,7 +566,7 @@
       <property name="geometry">
        <rect>
         <x>370</x>
-        <y>110</y>
+        <y>158</y>
         <width>41</width>
         <height>25</height>
        </rect>
@@ -454,7 +576,7 @@
       <property name="geometry">
        <rect>
         <x>70</x>
-        <y>120</y>
+        <y>168</y>
         <width>81</width>
         <height>20</height>
        </rect>
@@ -467,7 +589,7 @@
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>110</y>
+        <y>158</y>
         <width>41</width>
         <height>25</height>
        </rect>
@@ -477,7 +599,7 @@
       <property name="geometry">
        <rect>
         <x>230</x>
-        <y>110</y>
+        <y>158</y>
         <width>41</width>
         <height>25</height>
        </rect>
@@ -487,7 +609,7 @@
       <property name="geometry">
        <rect>
         <x>280</x>
-        <y>120</y>
+        <y>168</y>
         <width>16</width>
         <height>17</height>
        </rect>
@@ -505,7 +627,7 @@
       <property name="geometry">
        <rect>
         <x>210</x>
-        <y>120</y>
+        <y>168</y>
         <width>16</width>
         <height>17</height>
        </rect>
@@ -523,7 +645,7 @@
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>110</y>
+        <y>158</y>
         <width>41</width>
         <height>25</height>
        </rect>
@@ -533,7 +655,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>170</y>
+        <y>218</y>
         <width>131</width>
         <height>20</height>
        </rect>
@@ -546,7 +668,7 @@
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>170</y>
+        <y>218</y>
         <width>41</width>
         <height>25</height>
        </rect>
@@ -556,7 +678,7 @@
       <property name="geometry">
        <rect>
         <x>230</x>
-        <y>170</y>
+        <y>218</y>
         <width>41</width>
         <height>25</height>
        </rect>
@@ -566,7 +688,7 @@
       <property name="geometry">
        <rect>
         <x>210</x>
-        <y>170</y>
+        <y>218</y>
         <width>16</width>
         <height>17</height>
        </rect>
@@ -584,7 +706,7 @@
       <property name="geometry">
        <rect>
         <x>349</x>
-        <y>170</y>
+        <y>218</y>
         <width>16</width>
         <height>17</height>
        </rect>
@@ -602,7 +724,7 @@
       <property name="geometry">
        <rect>
         <x>369</x>
-        <y>170</y>
+        <y>218</y>
         <width>41</width>
         <height>25</height>
        </rect>
@@ -612,7 +734,7 @@
       <property name="geometry">
        <rect>
         <x>299</x>
-        <y>170</y>
+        <y>218</y>
         <width>41</width>
         <height>25</height>
        </rect>
@@ -622,7 +744,7 @@
       <property name="geometry">
        <rect>
         <x>487</x>
-        <y>170</y>
+        <y>218</y>
         <width>16</width>
         <height>17</height>
        </rect>
@@ -640,7 +762,7 @@
       <property name="geometry">
        <rect>
         <x>500</x>
-        <y>169</y>
+        <y>217</y>
         <width>41</width>
         <height>25</height>
        </rect>
@@ -650,7 +772,7 @@
       <property name="geometry">
        <rect>
         <x>440</x>
-        <y>169</y>
+        <y>217</y>
         <width>41</width>
         <height>25</height>
        </rect>
@@ -660,7 +782,7 @@
       <property name="geometry">
        <rect>
         <x>280</x>
-        <y>170</y>
+        <y>218</y>
         <width>16</width>
         <height>17</height>
        </rect>
@@ -678,7 +800,7 @@
       <property name="geometry">
        <rect>
         <x>420</x>
-        <y>170</y>
+        <y>218</y>
         <width>16</width>
         <height>17</height>
        </rect>
@@ -696,7 +818,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>230</y>
+        <y>278</y>
         <width>141</width>
         <height>20</height>
        </rect>
@@ -709,7 +831,7 @@
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>230</y>
+        <y>278</y>
         <width>91</width>
         <height>25</height>
        </rect>
@@ -760,7 +882,7 @@
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>276</y>
+        <y>324</y>
         <width>81</width>
         <height>20</height>
        </rect>
@@ -773,7 +895,7 @@
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>272</y>
+        <y>320</y>
         <width>91</width>
         <height>25</height>
        </rect>
@@ -793,6 +915,113 @@
         <string>Alpha2</string>
        </property>
       </item>
+     </widget>
+     <widget class="QLabel" name="label_26">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>120</y>
+        <width>16</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>.</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_27">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>120</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Subnet Mask :</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_28">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>120</y>
+        <width>16</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>.</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_29">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>120</y>
+        <width>16</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>.</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="mask_1_lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>110</y>
+        <width>41</width>
+        <height>25</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="mask_3_lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>110</y>
+        <width>41</width>
+        <height>25</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="mask_4_lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>110</y>
+        <width>41</width>
+        <height>25</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="mask_2_lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>110</y>
+        <width>41</width>
+        <height>25</height>
+       </rect>
+      </property>
      </widget>
      <zorder>label_10</zorder>
      <zorder>label_9</zorder>
@@ -828,6 +1057,14 @@
      <zorder>reboot_pushButton</zorder>
      <zorder>label_24</zorder>
      <zorder>alphaTypeComboBox</zorder>
+     <zorder>label_26</zorder>
+     <zorder>label_27</zorder>
+     <zorder>label_28</zorder>
+     <zorder>label_29</zorder>
+     <zorder>mask_1_lineEdit</zorder>
+     <zorder>mask_3_lineEdit</zorder>
+     <zorder>mask_4_lineEdit</zorder>
+     <zorder>mask_2_lineEdit</zorder>
     </widget>
    </widget>
   </widget>

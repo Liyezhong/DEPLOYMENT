@@ -3,6 +3,8 @@
 #include <QDebug>
 #include "package.h"
 #include <QThread>
+#include <QMessageBox>
+#include <QApplication>
 
 Package::Package(QString name, QString path, QString installDir, int totalTime, QObject *parent)
     : QObject(parent),
@@ -25,14 +27,12 @@ void Package::_updateProgress()
 void Package::install()
 {
     process = new QProcess();
-    qint64 len;
     connect(process, &QProcess::started, [&]() {
         progressTimer = new QTimer();
         connect(progressTimer, SIGNAL(timeout()), this, SLOT(_updateProgress()));
         progressTimer->start(totalTime * 1000 / 100);
     });
     connect(process, &QProcess::readyReadStandardOutput, [&]() {
-//            len = process->bytesAvailable();
         qDebug() << "process->bytesAvailable(): " << process->bytesAvailable();
             while (process->canReadLine() > 0) {
                 QString s(process->readLine());
@@ -43,8 +43,6 @@ void Package::install()
     connect(process, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
                [=](int exitCode, QProcess::ExitStatus exitStatus) {
         qDebug() << "exitCode: " << exitCode << " QProcess::ExitStatus: " << exitStatus;
-//        process->kill();
-//        process->waitForFinished();
         while (++progressValue <= 100) {
             emit updateProgress(progressValue);
             QThread::msleep(30);

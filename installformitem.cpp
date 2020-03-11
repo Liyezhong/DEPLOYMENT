@@ -2,6 +2,7 @@
 #include "ui_installformitem.h"
 #include "package.h"
 #include "installdialog.h"
+#include <QMessageBox>
 
 InstallFormItem::InstallFormItem(size_t _id, Package *package, QWidget *parent) :
     id(_id),

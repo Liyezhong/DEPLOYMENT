@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>379</width>
-    <height>85</height>
+    <height>100</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>30</y>
+     <y>37</y>
      <width>41</width>
      <height>21</height>
     </rect>
@@ -63,7 +63,7 @@ QCheckBox::indicator::checked {
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>30</y>
+     <y>37</y>
      <width>301</width>
      <height>21</height>
     </rect>
@@ -83,7 +83,7 @@ QCheckBox::indicator::checked {
    <property name="geometry">
     <rect>
      <x>280</x>
-     <y>33</y>
+     <y>10</y>
      <width>89</width>
      <height>25</height>
     </rect>
@@ -96,13 +96,26 @@ QCheckBox::indicator::checked {
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>73</y>
+     <y>83</y>
      <width>351</width>
      <height>21</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="exportButton">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>56</y>
+     <width>89</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>export log</string>
    </property>
   </widget>
  </widget>

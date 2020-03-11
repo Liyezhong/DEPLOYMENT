@@ -28,6 +28,8 @@ private slots:
 
     void on_enableRadioButton_toggled(bool checked);
 
+    void on_exportButton_clicked();
+
 private:
     QListWidget *listWidget;
     QListWidgetItem *listWidgetItem;
